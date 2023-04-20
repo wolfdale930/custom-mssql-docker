@@ -1,15 +1,16 @@
-FROM mcr.microsoft.com/mssql/server:2022-latest
+FROM mcr.microsoft.com/mssql/server:2019-latest
 
+USER root
 # Create a config directory
 RUN mkdir -p /usr/config
 WORKDIR /usr/config
 
 # Bundle config source
 COPY . /usr/config
-
 # Grant permissions for to our scripts to be executable
-RUN chmod +x ./
-# RUN chmod +x entrypoint.sh
-# RUN chmod +x configure-db.sh
+RUN chmod +x setup.sql
 
-ENTRYPOINT ["sh","entrypoint.sh"]
+USER mssql
+
+ENTRYPOINT /bin/bash ./entrypoint.sh
+

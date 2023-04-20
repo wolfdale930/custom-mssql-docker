@@ -1,0 +1,14 @@
+version: '3.1'
+services:
+  db: # backend application
+    image: areeb/custom_mssql # image name used for building and deploying
+    build: ./mssql # context folder for building docker app
+    user: root
+    ports:
+      - '1433:1433' # port that will be linked to host:container
+    environment:
+      - ACCEPT_EULA=Y 
+      - MSSQL_SA_PASSWORD=LegitApp@123456
+    volumes:
+      - ./mssql-data/data:/var/opt/mssql/data
+      - ./mssql-data/backups:/var/backups
